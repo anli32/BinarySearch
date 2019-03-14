@@ -24,22 +24,84 @@ private Item[] store =
 public int linearSearch(int catNumToFind)
 {
   //complete this method
+  for(int i = 0; i < store.length; i ++) {
+    // if the category number is found return its inventory
+    if(store[i].getCatNum() == catNumToFind) {
+      return store[i].getInventory();
+    }
+  }
   return -1;
 }
 public int recursiveLinearSearch(int catNumToFind, int startIndex)
 {
   //complete this method
-  return -1;
+  // first check to see if the index you are checking is a valid index in the array
+  // if you are at the end of the array and the target is not found, return -1
+  if(startIndex > store.length - 1) {
+    return -1;
+  }
+
+  //target is found
+  if(store[startIndex].getCatNum() == catNumToFind) {
+    return store[startIndex].getInventory();
+  }
+
+  //target not found, continue through array
+  else {
+    return recursiveLinearSearch(catNumToFind, startIndex + 1);
+  }
+
+
+  
 }
 public int binarySearch(int catNumToFind)
 {
-  //complete this method    
+  //complete this method
+  //high index
+  int high = store.length - 1;
+  //low index
+  int low = 0;
+
+  //when high index is larger than or equal to the small index
+  while(high >= low) {
+    int guess = (low + high) / 2;
+    //stop search if the category number is found
+    if(store[guess].getCatNum() == catNumToFind) {
+      return store[guess].getInventory();
+    }
+    //guess is too high, so high = guess - 1
+    else if(store[guess].getCatNum() > catNumToFind) {
+      high = guess - 1; // change high and loop will rerun
+    }
+    //else; only option left is that guess is too low, so low = guess + 1
+    else {
+      low = guess + 1; // change low and loop will rerun
+    }
+  }
+  // low > high; category number not found
   return -1;
 }
 public int recursiveBinarySearch(int catNumToFind, int nLow, int nHigh)
 {
-  //complete this method    
-  return -1;
+  //complete this method  
+  //if low > high, means reached end and category number is not found
+  if(nLow > nHigh) {
+    return -1;
+  }  
+
+  int guess = (nLow + nHigh) / 2;
+  //if category number is found, return the inventory
+  if(store[guess].getCatNum() == catNumToFind) {
+    return store[guess].getInventory();
+  }
+  //if guess > category number, rerun with high = guess - 1; 
+  else if(store[guess].getCatNum() > catNumToFind) {
+    return recursiveBinarySearch(catNumToFind, nLow, guess - 1);
+  }
+  //if guess < category number, rerun with low = guess + 1;
+  else {
+    return recursiveBinarySearch(catNumToFind, guess + 1, nHigh);
+  }
 }
 public void setup()
 {
